@@ -1,0 +1,2 @@
+# Mastermind
+a simple game
