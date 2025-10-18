@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی استادباز (Mastermind)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="game-container">
+        <header>
+            <h1>استادباز</h1>
+            <p>کد مخفی را حدس بزنید!</p>
+        </header>
+
+        <main>
+            <section id="game-board">
+            </section>
+
+            <aside class="sidebar">
+                <section id="settings">
+                    <h3>تنظیمات بازی</h3>
+                    <div class="setting-group">
+                        <label for="code-length">طول کد:</label>
+                        <select id="code-length">
+                            <option value="4" selected>۴ مهره‌ای</option>
+                            <option value="5">۵ مهره‌ای</option>
+                            <option value="6">۶ مهره‌ای</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section id="color-settings">
+                    <h3>رنگ‌های موجود:</h3>
+                    <div class="color-options">
+                        <label>
+                            <input type="checkbox" name="color" value="red" checked>
+                            <span class="color-preview" style="background-color: #e74c3c;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="blue" checked>
+                            <span class="color-preview" style="background-color: #3498db;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="green" checked>
+                            <span class="color-preview" style="background-color: #2ecc71;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="yellow" checked>
+                            <span class="color-preview" style="background-color: #f1c40f;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="purple" checked>
+                            <span class="color-preview" style="background-color: #9b59b6;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="orange" checked>
+                            <span class="color-preview" style="background-color: #e67e22;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="cyan">
+                            <span class="color-preview" style="background-color: #1abc9c;"></span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="color" value="pink">
+                            <span class="color-preview" style="background-color: #fd79a8;"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <section id="color-palette">
+                    <h3>پالت رنگ:</h3>
+                    <div class="colors">
+                    </div>
+                </section>
+
+                <section id="controls">
+                    <button id="submit-guess">ثبت حدس</button>
+                    <button id="new-game">بازی جدید</button>
+                </section>
+
+                <div id="message" class="message"></div>
+                
+                <div id="secret-code-container" class="secret-code-container">
+                    <h3>کد مخفی:</h3>
+                    <div id="secret-code-reveal"></div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
