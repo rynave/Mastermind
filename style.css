@@ -1,0 +1,423 @@
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg: #ffffff;
+    --text-color: #1c1e21;
+    --accent-color: #007bff;
+    --accent-hover: #0056b3;
+    --border-color: #dddfe2;
+    --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* اندازه‌های پیش‌فرض برای موبایل */
+    --peg-size: 38px;
+    --feedback-peg-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.game-container {
+    background-color: var(--container-bg);
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    animation: fadeInScale 0.5s ease-out;
+}
+
+header h1 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+header p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #606770;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+#game-board {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    max-height: 55vh; /* ارتفاع مناسب برای موبایل */
+    overflow-y: auto;
+    background-color: #fafbfc;
+}
+
+.guess-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px; /* فاصله کمتر برای موبایل */
+    padding: 10px;
+    background-color: var(--container-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    animation: slideIn 0.4s ease-out;
+}
+
+.guess-row.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.guess-row.locked {
+    opacity: 0.7;
+    transform: scale(0.98);
+}
+
+.guess-slots {
+    display: flex;
+    gap: 8px;
+}
+
+.slot {
+    width: var(--peg-size);
+    height: var(--peg-size);
+    border: 2px dashed var(--border-color);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: var(--container-bg);
+}
+
+.slot.filled {
+    border-style: solid;
+    border-color: transparent;
+    transform: scale(1.05);
+    box-shadow: var(--shadow-light);
+    animation: dropIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.feedback-slots {
+    display: grid;
+    gap: 5px;
+}
+
+.feedback-peg {
+    width: var(--feedback-peg-size);
+    height: var(--feedback-peg-size);
+    border-radius: 50%;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    opacity: 0;
+    transform: scale(0);
+}
+
+.feedback-peg.show {
+    animation: popIn 0.4s ease-out forwards;
+}
+
+.feedback-peg.black {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.feedback-peg.white {
+    background-color: var(--container-bg);
+    border-color: #343a40;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar h3 {
+    color: var(--text-color);
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #606770;
+}
+
+.setting-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.setting-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.color-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px;
+}
+
+.color-options label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.color-options label:hover {
+    background-color: #f0f2f5;
+}
+
+.color-options input[type="checkbox"] {
+    display: none;
+}
+
+.color-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: block;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.color-options input[type="checkbox"]:checked + .color-preview {
+    border-color: var(--accent-color);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.colors {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.color-peg {
+    width: var(--peg-size);
+    height: var(--peg-size);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 3px solid transparent;
+    box-shadow: var(--shadow-light);
+}
+
+.color-peg:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: var(--shadow-medium);
+}
+
+.color-peg.selected {
+    border-color: var(--text-color);
+    transform: scale(1.1);
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-direction: column; 
+}
+
+button {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #fff;
+    width: 100%;
+}
+
+#submit-guess {
+    background-color: var(--accent-color);
+}
+
+#submit-guess:hover:not(:disabled) {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+#new-game {
+    background-color: #28a745;
+}
+
+#new-game:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-light);
+}
+
+button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    min-height: 25px;
+    padding: 10px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease;
+}
+
+.message.win {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.message.lose {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.message.error {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+}
+
+.secret-code-container {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #f0f2f5;
+    border-radius: 10px;
+    display: none;
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.5s ease;
+}
+
+.secret-code-container.show {
+    display: block;
+}
+
+#secret-code-reveal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+#secret-code-reveal .peg {
+    width: var(--peg-size);
+    height: var(--peg-size);
+    border-radius: 50%;
+    border: 2px solid var(--text-color);
+    box-shadow: var(--shadow-light);
+    animation: popIn 0.4s ease-out;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes dropIn { from { transform: translateY(-20px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1.05); opacity: 1; } }
+@keyframes popIn { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
+
+
+@media (min-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    
+    .game-container {
+        padding: 30px;
+    }
+
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    header p {
+        font-size: 1.1em;
+    }
+
+    main {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+        gap: 30px;
+    }
+
+    #game-board {
+        max-height: 70vh;
+    }
+
+    #controls {
+        flex-direction: row; 
+    }
+
+    button {
+        width: auto; 
+    }
+}
+
+@media (min-width: 992px) {
+    :root {
+        --peg-size: 45px;
+        --feedback-peg-size: 18px;
+    }
+    
+    .guess-row {
+        gap: 20px;
+        padding: 12px;
+    }
+
+    .guess-slots {
+        gap: 10px;
+    }
+}
